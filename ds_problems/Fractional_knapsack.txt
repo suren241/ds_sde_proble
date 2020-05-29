@@ -1,0 +1,49 @@
+#include<stdio.h>
+float frac_knap(int v[],int w[],int n,int capacity){
+	float totalweight=0;
+	int i;
+	for(i=0;i<n;i++){
+		if(w[i]<=capacity){
+			capacity-=w[i];
+			totalweight+=v[i];	
+		}	
+		else{
+			totalweight+=(float)v[i]*(float)capacity/(float)w[i];
+			break;
+		}
+	}
+	return totalweight;
+}
+
+main(){
+	int n,i,j;
+	printf("size: ");
+	scanf("%d",&n);
+	int w[n],v[n],capacity;
+	float profit[n];
+		printf("ENTER TOTAL CAPACITY: ");
+	scanf("%d",&capacity);
+	printf("enter value and weight:\n");
+	for( i=0;i<n;i++){
+		scanf("%d%d",&v[i],&w[i]);
+		profit[i]=(float)v[i]/(float)w[i];
+	}
+	for(i=0;i<n-1;i++){
+		for(j=0;j<n-i-1;j++){
+			if(profit[j]<profit[j+1]){
+				float t1=profit[j];
+				profit[j]=profit[j+1];
+				profit[j+1]=t1;
+				int t2=v[j];
+				v[j]=v[j+1];
+				v[j+1]=t2;
+				t2=w[j];
+				w[j]=w[j+1];
+				w[j+1]=t2;
+				
+			}
+		}
+		
+	}
+	printf("maximum value of knapsack: %f\n",frac_knap(v,w,n,capacity));
+}
